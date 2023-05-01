@@ -2,6 +2,7 @@
 /**
  * @return mysqli|void
  */
+include "consoleUtil.php";
 function getMysqli()
 {
     header('Access-Control-Allow-Origin:*');//解决跨域请求问题
@@ -33,6 +34,7 @@ function getMysqli()
     return $conn;
 }
 /**
+ * 查询
  * @param mysqli $conn
  * @param $sql
  * @return array
@@ -53,26 +55,47 @@ function getArray(mysqli $conn, $sql): array
     }
     return $arr;
 }
+
 /**
+ * 插入
+ * @param mysqli $conn
+ * @param $sql
+ * @return bool|mysqli_result
+ */
+function insert(mysqli $conn, $sql) : bool
+{
+    return $conn->query($sql);
+}
+/**
+ * 查询全部
  * @param $sql
  * @param mysqli $conn
  * @return array
  */
 function getAll($sql, mysqli $conn): array
 {
-    //设置查询结果的编码,必须放在query之前
     $arr = getArray($conn, $sql);
-//print_r($arr);
     $conn->close();
     return $arr;
 }
 
+/**
+ * 单个查询
+ * @param $sql
+ * @param mysqli $conn
+ * @return mixed
+ */
 function getOne($sql, mysqli $conn)
 {
-    //设置查询结果的编码,必须放在query之前
     $arr = getArray($conn, $sql);
-//print_r($arr);
     $conn->close();
     return $arr[0];
+}
+
+function add($sql, mysqli $conn) : bool
+{
+    $status = insert($conn, $sql);
+    $conn->close();
+    return $status;
 }
 
