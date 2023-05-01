@@ -5,5 +5,5 @@ function write_to_console($data) {
     if (is_array($console))
         $console = implode(',', $console);
 
-    echo "<script>console.log('XM-Console >> " . $console . "' );</script>";
+    echo "<script>console.log('XM-Print >> " . $console . "' );</script>";
 }
