@@ -14,6 +14,9 @@ class CommonVo
     public static string $NOTFOUND_MSG = "请求不存在";
     public static string $ERROR_MSG = "服务器异常,请联系管理员";
 
+    /**
+     * 目前可写可不写
+     */
     public function __construct()
     {
     }

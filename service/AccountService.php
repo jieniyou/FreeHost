@@ -4,5 +4,6 @@ namespace service;
 
 interface AccountService
 {
-    static function login($username, $password): ?array;
+    public static function login($username, $password): ?array;
+    public static function register($username, $password, $email): bool;
 }

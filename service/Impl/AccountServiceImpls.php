@@ -8,7 +8,7 @@ include "./../../mapper/Impl/AccountMapperImpls.php";
 
 class AccountServiceImpls
 {
-    static function login($username, $password): ?array
+    public static function login($username, $password): ?array
     {
         // TODO: Implement login() method.
         $conn = getMysqli();
@@ -16,7 +16,7 @@ class AccountServiceImpls
         return getOne($sql,$conn);
 //        return AccountMapperImpls::login($username, $password);
     }
-    static function register($username, $password, $email): bool
+    public static function register($username, $password, $email): bool
     {
         // TODO: Implement login() method.
         $conn = getMysqli();
@@ -29,5 +29,6 @@ class AccountServiceImpls
                            VALUES ('$username', '$password', '$email')";
             return add($insert_sql, $new_conn);
         }
+//        return AccountMapperImpls::register($username, $password, $email);
     }
 }

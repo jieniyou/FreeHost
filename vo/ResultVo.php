@@ -2,7 +2,7 @@
 
 namespace vo;
 include "CommonVo.php";
-use vo\CommonVo;
+
 /**
  *  封装统一返回结果
  */
@@ -41,6 +41,7 @@ class ResultVo
     }
 
     /**
+     * 目前其实可写可不写
      * 无参构造方法
      * @return void
      */

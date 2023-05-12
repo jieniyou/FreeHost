@@ -11,11 +11,15 @@ use service\AccountService;
 
 class AccountServiceImpl implements AccountService
 {
-    static function login($username, $password): ?array
+    public static function login($username, $password): ?array
     {
-        write_to_console("测试2", "456");
-        $accountMapperImpl = new AccountMapperImpl();
         // TODO: Implement login() method.
-        return $accountMapperImpl::login($username, $password);
+        return AccountMapperImpl::login($username, $password);
+    }
+
+    public static function register($username, $password, $email): bool
+    {
+        // TODO: Implement register() method.
+        return AccountMapperImpl::register($username, $password, $email);
     }
 }
