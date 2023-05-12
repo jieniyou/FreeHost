@@ -7,9 +7,6 @@ use service\Impl\AccountServiceImpls;
 include "./../vo/ResultVo.php";
 include "./../service/Impl/AccountServiceImpls.php";
 
-
-
-
 class AccountController
 {
     function login($username, $password): array

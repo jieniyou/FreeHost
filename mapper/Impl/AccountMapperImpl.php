@@ -8,7 +8,6 @@ include_once "./../../util/consoleUtil.php";
 
 use mapper\AccountMapper;
 
-
 class AccountMapperImpl implements AccountMapper
 {
     static function login($username, $password): ?array
