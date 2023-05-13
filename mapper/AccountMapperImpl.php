@@ -1,8 +1,10 @@
 <?php
 
-namespace mapper\Impl;
+namespace mapper;
 
-class AccountMapperImpls
+include "AccountMapper.php";
+
+class AccountMapperImpl implements AccountMapper
 {
     public static function login($username, $password): ?array
     {

@@ -1,24 +1,22 @@
 <?php
 
-namespace service\Impl;
+namespace service;
 
-include "./../../mapper/impl/AccountMapperImpl.php";
-include "./../../util/consoleUtil.php";
+use mapper\AccountMapperImpl;
 
-use mapper\Impl\AccountMapperImpl;
-use service\AccountService;
+include "./../mapper/AccountMapperImpl.php";
+include "AccountService.php";
 
-class AccountServiceImpl
+class AccountServiceImpl implements AccountService
 {
     public static function login($username, $password): ?array
     {
         // TODO: Implement login() method.
         return AccountMapperImpl::login($username, $password);
     }
-
     public static function register($username, $password, $email): bool
     {
-        // TODO: Implement register() method.
+        // TODO: Implement login() method.
         return AccountMapperImpl::register($username, $password, $email);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace mapper\Impl;
 
-include "./../AccountMapper.php";
 include_once "./../../util/mysqlUtil.php";
 include_once "./../../util/consoleUtil.php";
 
