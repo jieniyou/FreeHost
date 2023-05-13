@@ -1,6 +1,7 @@
 <?php
 
 namespace controller;
+use entity\AccountEntity;
 use vo\ResultVo;
 use service\AccountServiceImpl;
 
@@ -19,6 +20,11 @@ class AccountController
         if (null != $account) return ResultVo::SUCCESS_D($account);
         else return ResultVo::NOTFOUND_MD('用户名或密码不正确',null);
 
+    }
+
+    function queryUserByName(AccountEntity $accountEntity)
+    {
+        echo $accountEntity;
     }
     static function register($username, $password, $email): array
     {
