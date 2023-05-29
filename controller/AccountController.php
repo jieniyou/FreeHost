@@ -28,7 +28,7 @@ class AccountController
     }
     static function register($username, $password, $email): array
     {
-        if ($username === null || $username === '' || $password === null || $password === '' || $email === null || $email === '' ){
+        if (empty($username) || empty($password) || empty($email)) {
             return ResultVo::NOTFOUND_MD("请输入用户名和密码", null);
         }
         $status = AccountServiceImpl::register($username, $password, $email);

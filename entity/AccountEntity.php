@@ -125,10 +125,16 @@ class AccountEntity
         $this->email = $email;
     }
 
-    public function __toString($id, $username, $nickname, $password, $tel, $email)
+    public function __toString()
     {
-        // TODO: Implement __toString() method.
-        return json_encode(new AccountEntity($id, $username, $nickname, $password, $tel, $email));
+        return json_encode([
+            'id' => $this->id,
+            'username' => $this->username,
+            'nickname' => $this->nickname,
+            'password' => $this->password,
+            'tel' => $this->tel,
+            'email' => $this->email,
+        ]);
     }
 
 

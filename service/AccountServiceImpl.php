@@ -16,7 +16,7 @@ class AccountServiceImpl implements AccountService
     }
     public static function register($username, $password, $email): bool
     {
-        // TODO: Implement login() method.
+        // TODO: Implement register() method.
         return AccountMapperImpl::register($username, $password, $email);
     }
 }
