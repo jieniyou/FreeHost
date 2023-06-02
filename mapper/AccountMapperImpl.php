@@ -14,9 +14,9 @@ class AccountMapperImpl implements AccountMapper
         $stmt->execute();
         $result = $stmt->get_result();
 
-        if ($result->num_rows === 0) {
-            return null;
-        }
+        $stmt->close();
+
+        if ($result->num_rows === 0) return null;
 
         return $result->fetch_assoc();
     }
@@ -30,6 +30,7 @@ class AccountMapperImpl implements AccountMapper
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
+        $stmt->close();
         /**
          * 1.将密码散列化存储是一个基本的安全实践，可以使用 PHP 的 password_hash() 和 password_verify() 函数来完成密码散列化和验证。
          * 2.使用 prepared statement 和参数绑定可以防止 SQL 注入攻击。
@@ -43,12 +44,13 @@ class AccountMapperImpl implements AccountMapper
             $insert_sql = "INSERT INTO account (user_name, user_password, user_email) VALUES (?, ?, ?)";
             $stmt = $conn->prepare($insert_sql);
 
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-            $stmt->bind_param("sss", $username, $hashed_password, $email);
+            $stmt->bind_param("sss", $username, $password, $email);
             $stmt->execute();
 
-            return $stmt->affected_rows > 0;
+            $results = $stmt->affected_rows;
+            $stmt->close();
+
+            return $results > 0;
         }
     }
 }

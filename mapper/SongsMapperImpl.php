@@ -5,6 +5,26 @@ namespace mapper;
 include "SongsMapper.php";
 class SongsMapperImpl implements SongsMapper
 {
+    public static function queryAll(): ?array
+    {
+        // TODO: Implement queryAll() method.
+        $conn = getMysqli();
+        $sql = "SELECT * FROM songs";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        if ($result->num_rows === 0) return null;
+
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+
+        return $data;
+    }
+
     public static function insert($postData): bool
     {
         $artist = $postData['artist'];
@@ -17,17 +37,20 @@ class SongsMapperImpl implements SongsMapper
         $conn = getMysqli();
         $stmt = $conn->prepare("INSERT INTO songs(artist, lrc, name, pic, url, showlrc) 
                             VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param('sssssi', $artist, $lrc, $name, $pic, $url, $showlrc);
+        $stmt->bind_param('ssssss', $artist, $lrc, $name, $pic, $url, $showlrc);
         $stmt->execute();
 
-        if ($stmt->affected_rows > 0) {
+        $result = $stmt->affected_rows;
+        $stmt->close();
+
+        if ($result > 0) {
             return true;
         } else {
             return false;
         }
     }
 
-    public static function update(array $postData): bool
+    public static function update($postData): bool
     {
         $id = $postData['id'];
         $artist = $postData['artist'];
@@ -42,7 +65,29 @@ class SongsMapperImpl implements SongsMapper
         $stmt->bind_param("ssssssi", $artist, $lrc, $name, $pic, $url, $showlrc, $id);
         $stmt->execute();
 
-        if ($stmt->affected_rows > 0) {
+        $result = $stmt->affected_rows;
+
+        $stmt->close();
+
+        if ($result > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function deleteById($id): bool
+    {
+        $conn = getMysqli();
+        $stmt = $conn->prepare("DELETE FROM songs WHERE id=?");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+
+        $result = $stmt->affected_rows;
+
+        $stmt->close();
+
+        if ($result > 0) {
             return true;
         } else {
             return false;

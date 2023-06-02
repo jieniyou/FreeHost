@@ -6,6 +6,8 @@ use controller\SongsController;
 include_once "./../util/mysqlUtil.php";
 require_once "./../util/consoleUtil.php";
 
+$id = $_POST['id'];
+
 $songsController = new SongsController();
-$songs = $songsController->queryAll();
-echo json_encode($songs, JSON_UNESCAPED_UNICODE);
+$result = $songsController->deleteById($id);
+echo json_encode($result, JSON_UNESCAPED_UNICODE);

@@ -1,10 +1,10 @@
 <?php
 
+include_once './../controller/SongsController.php';
 use controller\SongsController;
 
-include_once './../controller/SongsController.php';
-include_once "./../util/consoleUtil.php";
 include_once "./../util/mysqlUtil.php";
+require_once "./../util/consoleUtil.php";
 
 $id = $_POST['id'];
 $artist = $_POST['artist'];
