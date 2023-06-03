@@ -47,4 +47,64 @@ class PlayListMapperImpl implements PlayListMapper
         }
         return $data;
     }
+
+    public static function insert($postData): bool
+    {
+        // TODO: Implement insert() method.
+        $description = $postData['description'];
+        $introduction = $postData['introduction'];
+        $name = $postData['name'];
+        $pic = $postData['pic'];
+
+        $conn = getMysqli();
+        $sql = "INSERT INTO playlist (playlist_description, playlist_introduction, playlist_name, playlist_pic) VALUES (?,?,?,?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ssss', $description, $introduction, $name, $pic);
+        $stmt->execute();
+
+        $result = $stmt->affected_rows;
+        $stmt->close();
+
+        if ($result > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function update($postData): bool
+    {
+        // TODO: Implement update() method.
+
+        $id = $postData['id'];
+        $description = $postData['description'];
+        $introduction = $postData['introduction'];
+        $name = $postData['name'];
+        $pic = $postData['pic'];
+
+        $conn = getMysqli();
+        $sql = "UPDATE playlist SET playlist_description =?, playlist_introduction =?, playlist_name =?, playlist_pic =? WHERE id =?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ssssi', $description, $introduction, $name, $pic, $id);
+        $stmt->execute();
+
+        $result = $stmt->affected_rows;
+        $stmt->close();
+
+        if ($result > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function deleteById($id): bool
+    {
+        // TODO: Implement deleteById() method.
+        $conn = getMysqli();
+        $sql = "DELETE FROM playlist WHERE id =?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('i', $id);
+        return $stmt->execute();
+    }
 }

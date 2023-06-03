@@ -19,4 +19,28 @@ class AccountServiceImpl implements AccountService
         // TODO: Implement register() method.
         return AccountMapperImpl::register($username, $password, $email);
     }
+
+    public static function queryAll(): ?array
+    {
+        // TODO: Implement queryAll() method.
+        return AccountMapperImpl::queryAll();
+    }
+
+    public static function insert($PostData): bool
+    {
+        // TODO: Implement insert() method.
+        return AccountMapperImpl::insert($PostData);
+    }
+
+    public static function update($PostData): bool
+    {
+        // TODO: Implement update() method.
+        return AccountMapperImpl::update($PostData);
+    }
+
+    public static function deleteById($id): bool
+    {
+        // TODO: Implement deleteById() method.
+        return AccountMapperImpl::deleteById($id);
+    }
 }

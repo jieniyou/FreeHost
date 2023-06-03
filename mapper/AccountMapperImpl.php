@@ -53,4 +53,99 @@ class AccountMapperImpl implements AccountMapper
             return $results > 0;
         }
     }
+
+    public static function queryAll(): ?array
+    {
+        // TODO: Implement queryAll() method.
+        $conn = getMysqli();
+        $sql = "SELECT * FROM account";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        if ($result->num_rows === 0) return null;
+
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+    // id
+    // username
+    // nickname
+    // tel
+    // avatar
+    // email
+    // password
+    public static function insert($PostData): bool
+    {
+        // TODO: Implement insert() method.
+        $conn = getMysqli();
+
+        // 检查用户名是否已存在
+        $check_sql = "SELECT user_name FROM account WHERE user_name=?";
+        $stmt = $conn->prepare($check_sql);
+        $stmt->bind_param("s", $PostData['username']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        if ($result->num_rows > 0) {
+            return false;
+        } else {
+            // 插入新的用户数据
+            $insert_sql = "INSERT INTO account (user_avatar, user_email, user_name, user_nickname, user_tel) VALUES (?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($insert_sql);
+            $stmt->bind_param("sssss", $PostData['avatar'], $PostData['email'], $PostData['username'], $PostData['nickname'], $PostData['tel']);
+            $stmt->execute();
+
+            $results = $stmt->affected_rows;
+            $stmt->close();
+
+            return $results > 0;
+        }
+    }
+
+    // id
+    // username
+    // nickname
+    // tel
+    // avatar
+    // email
+    // password
+
+    public static function update($PostData): bool
+    {
+        // TODO: Implement update() method.
+        $id = $PostData['id'];
+        $username = $PostData['username'];
+        $nickname = $PostData['nickname'];
+        $tel = $PostData['tel'];
+        $avatar = $PostData['avatar'];
+        $email = $PostData['email'];
+
+        $conn = getMysqli();
+        $sql = "UPDATE account SET user_name =?, user_nickname =?, user_tel =?, user_avatar =?, user_email =? WHERE id =?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('sssssi', $username, $nickname, $tel, $avatar, $email, $id);
+        $stmt->execute();
+
+        $result = $stmt->affected_rows;
+        $stmt->close();
+
+        if ($result > 0) return true;
+        else return false;
+    }
+
+    public static function deleteById($id): bool
+    {
+        // TODO: Implement deleteById() method.
+        $conn = getMysqli();
+        $sql = "DELETE FROM account WHERE id =?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('i', $id);
+        return $stmt->execute();
+    }
 }

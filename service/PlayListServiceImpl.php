@@ -21,4 +21,22 @@ class PlayListServiceImpl implements PlayListService
         // TODO: Implement queryPlayListById() method.
         return PlayListMapperImpl::queryPlayListByUserId($userId);
     }
+
+    public static function insert($postData): bool
+    {
+        // TODO: Implement insert() method.
+        return PlayListMapperImpl::insert($postData);
+    }
+
+    public static function update($postData): bool
+    {
+        // TODO: Implement update() method.
+        return PlayListMapperImpl::update($postData);
+    }
+
+    public static function deleteById($id): bool
+    {
+        // TODO: Implement deleteById() method.
+        return PlayListMapperImpl::deleteById($id);
+    }
 }
