@@ -10,9 +10,10 @@ include "./../service/SongsServiceImpl.php";
 
 class SongsController
 {
-    public function queryAll(): array
+    public function queryAll($userId): array
     {
-        $songs = SongsServiceImpl::queryAll();
+        if (empty($userId)) $userId = -1;
+        $songs = SongsServiceImpl::queryAll($userId);
         if (empty($songs)) return ResultVo::NOTFOUND_MD("无数据", null);
         else return ResultVo::SUCCESS_D($songs);
     }
@@ -42,6 +43,13 @@ class SongsController
 
         if (null!= $status) return ResultVo::SUCCESS_MD('删除成功', null);
         else return ResultVo::NOTFOUND_MD('删除数据失败,请联系管理员',null);
+    }
+
+    public function queryByPlayListId($playListId, $userId): array
+    {
+        if (empty($userId)) $userId = -1;
+        $songs = SongsServiceImpl::queryByPlayListId($playListId, $userId);
+        return ResultVo::SUCCESS_MD('查询成功', $songs);
     }
 
 }

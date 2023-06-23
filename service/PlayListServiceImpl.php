@@ -22,10 +22,10 @@ class PlayListServiceImpl implements PlayListService
         return PlayListMapperImpl::queryPlayListByUserId($userId);
     }
 
-    public static function insert($postData): bool
+    public static function insert($postData, $userId): bool
     {
         // TODO: Implement insert() method.
-        return PlayListMapperImpl::insert($postData);
+        return PlayListMapperImpl::insert($postData, $userId);
     }
 
     public static function update($postData): bool
@@ -38,5 +38,37 @@ class PlayListServiceImpl implements PlayListService
     {
         // TODO: Implement deleteById() method.
         return PlayListMapperImpl::deleteById($id);
+    }
+
+
+    public static function queryMyCollection($id): ?array
+    {
+        // TODO: Implement queryMyCollection() method.
+        return PlayListMapperImpl::queryMyCollection($id);
+    }
+
+    public static function queryMyCreate($id): ?array
+    {
+        // TODO: Implement queryMyCreate() method.
+        return PlayListMapperImpl::queryMyCreate($id);
+    }
+
+    public static function insertMyCollection($postData): bool
+    {
+        // TODO: Implement insertMyCollection() method.
+        return PlayListMapperImpl::insertMyCollection($postData);
+    }
+
+    public static function delMyCreate($postData): bool
+    {
+        // TODO: Implement delMyCreate() method.
+        return PlayListMapperImpl::delMyCreate($postData);
+    }
+
+
+    public static function queryCreator($id): ?array
+    {
+        // TODO: Implement queryCreator() method.
+        return PlayListMapperImpl::queryCreator($id);
     }
 }

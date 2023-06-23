@@ -11,6 +11,8 @@ require_once "./../util/consoleUtil.php";
 
 $method = $_POST['method'];
 
+$userId = $_POST['userId'];
+
 $id = $_POST['id'];
 $artist = $_POST['artist'];
 $lrc = $_POST['lrc'];
@@ -28,6 +30,8 @@ $postData = [
     'showlrc' => $showlrc,
     'url' => $url,
 ];
+
+$playListId = $_POST['playListId'];
 
 $songsController = new SongsController();
 
@@ -49,9 +53,15 @@ function editSong($songsController, $postData)
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
 }
 
-function listSongs($songsController)
+function listSongs($songsController, $userId)
 {
-    $songs = $songsController->queryAll();
+    $songs = $songsController->queryAll($userId);
+    echo json_encode($songs, JSON_UNESCAPED_UNICODE);
+}
+
+function listByplayListSongs($songsController, $playListId, $userId)
+{
+    $songs = $songsController->queryByPlayListId($playListId, $userId);
     echo json_encode($songs, JSON_UNESCAPED_UNICODE);
 }
 
@@ -66,6 +76,9 @@ switch ($method) {
         editSong($songsController, $postData);
         break;
     case 'list':
-        listSongs($songsController);
+        listSongs($songsController, $userId);
+        break;
+    case 'listByplayListId':
+        listByplayListSongs($songsController, $playListId, $userId);
         break;
 }

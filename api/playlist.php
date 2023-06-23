@@ -27,6 +27,8 @@ $postData = [
     'pic' => $pic
 ];
 
+$createId = $_POST['createId'];
+
 $playlistController = new PlayListController();
 
 function listPlaylists($playlistController)
@@ -41,8 +43,8 @@ function playlistByUserId($playlistController, $userId)
     echo json_encode($playlist, JSON_UNESCAPED_UNICODE);
 }
 
-function addPlaylist($playlistController, $postData) {
-    $result = $playlistController->insert($postData);
+function addPlaylist($playlistController, $postData, $userId) {
+    $result = $playlistController->insert($postData, $userId);
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
 }
 
@@ -54,6 +56,36 @@ function deletePlaylist($playlistController, $postData) {
     $result = $playlistController->deleteById($postData['id']);
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
 }
+function myCollection($playlistController, $userId)
+{
+    $playlist = $playlistController->queryMyCollection($userId);
+    echo json_encode($playlist, JSON_UNESCAPED_UNICODE);
+}
+function myCreate($playlistController, $userId)
+{
+    $playlist = $playlistController->queryMyCreate($userId);
+    echo json_encode($playlist, JSON_UNESCAPED_UNICODE);
+}
+
+function addMyCollection($playlistController, $postData, $userId, $createId)
+{
+    array_push($postData, $userId, $createId);
+    $result = $playlistController->insertMyCollection($postData);
+    echo json_encode($result, JSON_UNESCAPED_UNICODE);
+}
+
+function delMyCreate($playlistController, $postData, $userId)
+{
+    $postData['userId'] = $userId;
+    $result = $playlistController->delMyCreate($postData);
+    echo json_encode($result, JSON_UNESCAPED_UNICODE);
+}
+
+function getCreator($playlistController, $postData)
+{
+    $creator = $playlistController->queryCreator($postData['id']);
+    echo json_encode($creator, JSON_UNESCAPED_UNICODE);
+}
 
 switch ($method) {
     case 'list':
@@ -63,12 +95,27 @@ switch ($method) {
         playlistByUserId($playlistController, $userId);
         break;
     case 'add':
-        addPlaylist($playlistController, $postData);
+        addPlaylist($playlistController, $postData, $userId);
         break;
     case 'edit':
         editPlaylist($playlistController, $postData);
         break;
     case 'delete':
         deletePlaylist($playlistController, $postData);
+        break;
+    case 'myCollection':
+        myCollection($playlistController, $userId);
+        break;
+    case 'myCreate':
+        myCreate($playlistController, $userId);
+        break;
+    case 'addMyCollection':
+        addMyCollection($playlistController, $postData, $userId, $createId);
+        break;
+    case 'delMyCreate':
+        delMyCreate($playlistController, $postData, $userId);
+        break;
+    case 'getCreator':
+        getCreator($playlistController, $postData);
         break;
 }

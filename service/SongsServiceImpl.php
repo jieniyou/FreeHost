@@ -9,10 +9,10 @@ include "SongsService.php";
 
 class SongsServiceImpl implements SongsService
 {
-    public static function queryAll(): ?array
+    public static function queryAll($userId): ?array
     {
         // TODO: Implement queryAll() method.
-        return SongsMapperImpl::queryAll();
+        return SongsMapperImpl::queryAll($userId);
     }
     public static function insert($postData): bool
     {
@@ -30,5 +30,11 @@ class SongsServiceImpl implements SongsService
     {
         // TODO: Implement deleteById() method.
         return SongsMapperImpl::deleteById($id);
+    }
+
+    public static function queryByPlayListId($playListId, $userId): ?array
+    {
+        // TODO: Implement queryByPlayListId() method.
+        return SongsMapperImpl::queryByPlayListId($playListId, $userId);
     }
 }

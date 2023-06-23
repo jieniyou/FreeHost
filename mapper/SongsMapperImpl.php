@@ -5,12 +5,15 @@ namespace mapper;
 include "SongsMapper.php";
 class SongsMapperImpl implements SongsMapper
 {
-    public static function queryAll(): ?array
+    const ALIASForASS = " ass.id AS assId, ass.account_id AS assUId, ass.songs_id AS assSongId";
+    const COMMONLEFTJOIN = " LEFT JOIN account_songs ass ON ass.songs_id = s.id AND ass.account_id = ?";
+    public static function queryAll($userId): ?array
     {
         // TODO: Implement queryAll() method.
         $conn = getMysqli();
-        $sql = "SELECT * FROM songs";
+        $sql = "SELECT s.*, ".self::ALIASForASS." FROM songs s ".self::COMMONLEFTJOIN." ORDER BY s.id;";
         $stmt = $conn->prepare($sql);
+        $stmt->bind_param('i', $userId);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
@@ -92,5 +95,32 @@ class SongsMapperImpl implements SongsMapper
         } else {
             return false;
         }
+    }
+
+    public static function queryByPlayListId($playListId, $userId): ?array
+    {
+        // TODO: Implement queryByPlayListId() method.
+        $conn = getMysqli();
+//        $sql = "SELECT s.* ".self::ALIASForASS." FROM songs s ".self::COMMONLEFTJOIN." where id in (select songs_id from playlist_songs where playlist_id = ?)";
+        $sql = "SELECT s.*, ass.id AS assId, ass.account_id AS assUId, ass.songs_id AS assSongId 
+                FROM playlist_songs ps 
+                JOIN songs s ON ps.songs_id = s.id 
+                LEFT JOIN account_songs ass ON ass.songs_id = s.id AND ass.account_id = ? 
+                WHERE ps.playlist_id = ? 
+                ORDER BY s.id;";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ii', $userId, $playListId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        if ($result->num_rows === 0) return null;
+
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+
+        return $data;
     }
 }

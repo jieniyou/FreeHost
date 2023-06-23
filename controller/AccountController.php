@@ -12,9 +12,7 @@ class AccountController
 {
     function login($username, $password): array
     {
-        if (empty($username) || empty($password)){
-            return ResultVo::NOTFOUND_MD("请输入用户名和密码", null);
-        }
+        if (empty($username) || empty($password)) return ResultVo::NOTFOUND_MD("请输入用户名和密码", null);
         $account = AccountServiceImpl::login($username, $password);
 
         if (null != $account) return ResultVo::SUCCESS_D($account);
